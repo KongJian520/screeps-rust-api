@@ -1,17 +1,19 @@
 # screeps-rust-api
 
-一个用于 Screeps 游戏的 Rust 语言 API 接口库。
+[English](README.md) | [中文](README.zh.md)
 
-目前处于快速迭代中。**很多功能还不完善，敬请期待**。
+A Rust API client library for the Screeps game.
 
-## 功能特性
+Currently in rapid development. **Many features are still incomplete, stay tuned!**
 
-- 异步 HTTP 客户端支持
-- 自动速率限制处理
-- Screeps API 接口封装
-- 支持认证和 Token 管理
+## Features
 
-## 使用示例
+- Async HTTP client support
+- Automatic rate limiting
+- Screeps API wrappers
+- Authentication and Token management
+
+## Usage Example
 
 ```rust
 use screeps_rust_api::{ScreepsApi, ScreepsConfig};
@@ -29,11 +31,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let api = ScreepsApi::new(config);
 
-    // 获取用户信息
+    // Get user info
     let user_info = api.get_my_info().await?;
     println!("User ID: {}", user_info.user.unwrap()._id);
 
-    // 获取房间对象
+    // Get room objects
     let room_objects = api.get_room_objects("E13S13", "shard3").await?;
     println!(
         "Found {} objects in room",
@@ -44,49 +46,49 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-更多用法可以查看 `examples` 下的示例代码。
+For more, see the examples under the `examples` directory.
 
-## 支持的 API 接口
+## Supported API Endpoints
 
-### 用户相关
+### User
 
-- `get_my_info()` - 获取当前用户信息
-- `get_my_name()` - 获取当前用户名
-- `get_user_info_by_name(username)` - 根据用户名获取用户信息
-- `get_user_info_by_id(id)` - 根据用户 ID 获取用户信息
-- `get_user_rooms(id)` - 获取指定用户的所有房间
+- `get_my_info()` - Get current user info
+- `get_my_name()` - Get current username
+- `get_user_info_by_name(username)` - Get user info by username
+- `get_user_info_by_id(id)` - Get user info by user ID
+- `get_user_rooms(id)` - Get all rooms for a given user
 
-### 房间相关
+### Room
 
-- `get_room_objects(room, shard)` - 获取房间内所有对象
-- `get_room_terrain(room, shard)` - 获取房间地形信息
-- `get_room_terrain_encoded(room, shard)` - 获取编码后的房间地形信息
-- `get_room_status(room, shard)` - 获取房间状态
+- `get_room_objects(room, shard)` - Get all objects in a room
+- `get_room_terrain(room, shard)` - Get room terrain info
+- `get_room_terrain_encoded(room, shard)` - Get encoded room terrain info
+- `get_room_status(room, shard)` - Get room status
 
-### 游戏相关
+### Game
 
-- `get_shards()` - 获取所有 shard 信息
-- `get_shard_time(shard)` - 获取指定 shard 的游戏时间
+- `get_shards()` - Get all shard info
+- `get_shard_time(shard)` - Get the current game time for a shard
 
-### 认证相关
+### Authentication
 
-- `auth()` - 用户认证获取 token
+- `auth()` - Authenticate and get token
 
-## 构建
+## Build
 
 ```bash
 cargo build
 ```
 
-## 测试
+## Test
 
 ```bash
 cargo test
 ```
 
-注意：某些测试需要有效的 Screeps 账户凭据，这些凭据通过环境变量提供。
+Note: Some tests require valid Screeps account credentials, which are provided via environment variables.
 
-要运行需要认证的测试，请创建一个 `.env` 文件并设置以下环境变量：
+To run tests requiring authentication, create a `.env` file with the following variables:
 
 ```env
 SCREEPS_EMAIL=your_email@example.com
