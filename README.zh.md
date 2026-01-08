@@ -39,8 +39,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("Failed to get user info (likely invalid token)");
     }
 
-    // 获取房间对象 - 尝试一个无需认证的API调用
-    let room_objects = api.get_room_objects("E13S13", "shard3").await?;
+    // 获取房间对象
+    let room_objects = api.get_room_objects("W41S11", "shard3").await?;
     if let Some(objects) = room_objects.objects {
         println!("Found {} objects in room", objects.len());
     } else {
