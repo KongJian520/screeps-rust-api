@@ -24,7 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("your_token".to_string()),
         None,
         None,
-        "https://screeps.com".to_string(),
+        "screeps.com".to_string(),
         true,
         10,
     );
