@@ -24,7 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("your_token".to_string()),
         None,
         None,
-        "https://screeps.com".to_string(),
+        "screeps.com".to_string(),
         true,
         10,
     );
@@ -33,14 +33,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Get user info
     let user_info = api.get_my_info().await?;
-    println!("User ID: {}", user_info.user.unwrap()._id);
+    if let Some(user) = user_info.user {
+        println!("User ID: {}", user._id);
+    } else {
+        println!("Failed to get user info (likely invalid token)");
+    }
 
     // Get room objects
-    let room_objects = api.get_room_objects("E13S13", "shard3").await?;
-    println!(
-        "Found {} objects in room",
-        room_objects.objects.unwrap().len()
-    );
+    let room_objects = api.get_room_objects("W41S11", "shard3").await?;
+    if let Some(objects) = room_objects.objects {
+        println!("Found {} objects in room", objects.len());
+    } else {
+        println!("Failed to get room objects");
+    }
 
     Ok(())
 }
