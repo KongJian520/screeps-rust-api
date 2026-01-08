@@ -10,7 +10,7 @@ async fn main() -> ScreepsResult<()> {
     let res = query_res(&api, "6g3y", "all").await;
     match res {
         Ok(res) => {
-            println!("{:?}", res);
+            print_resources(&res);
         }
         Err(e) => {
             if let ScreepsError::Http(e) = e {
@@ -126,4 +126,78 @@ async fn query_res(
     }
 
     Ok(result)
+}
+
+fn format_number(num: i32) -> String {
+    if num >= 1_000_000 {
+        format!("{:.2}M", num as f64 / 1_000_000.0)
+    } else if num >= 1_000 {
+        format!("{:.2}K", num as f64 / 1_000.0)
+    } else {
+        format!("{}", num)
+    }
+}
+
+fn print_resources(resources: &HashMap<String, HashMap<String, i32>>) {
+    println!("\n═══════════════════════════════════════════════════════════════");
+    println!("                    玩家资源统计");
+    println!("═══════════════════════════════════════════════════════════════\n");
+
+    let mut shards: Vec<_> = resources.keys().collect();
+    shards.sort();
+
+    for shard in shards {
+        let shard_res = &resources[shard];
+        println!("📍 Shard: {}", shard);
+        println!("┌─────────────────────────────────────────────────────────────┐");
+
+        let categories: Vec<(&str, Vec<String>)> = vec![
+            ("基础资源", vec!["energy", "power", "ops"].iter().map(|s| s.to_string()).collect()),
+            ("基础矿物", vec!["H", "O", "L", "K", "Z", "U", "X", "G"].iter().map(|s| s.to_string()).collect()),
+            ("基础化合物", vec!["OH", "ZK", "UL", "GHO2", "UH2O", "KH2O", "UHO2", "LHO2", "KHO2", "XUH2O", "XHO2", "XKH2O", "XZHO2", "XGHO2", "XLH2O", "XLHO2", "XGH2O", "XZH2O", "KH", "ZH", "UH", "LH", "GH", "ZO", "KO", "UO", "LO", "GO"].iter().map(|s| s.to_string()).collect()),
+            ("压缩资源", vec!["utrium_bar", "lemergium_bar", "keanium_bar", "zynthium_bar", "ghodium_melt", "oxidant", "reductant", "purifier", "battery"].iter().map(|s| s.to_string()).collect()),
+            ("高级资源", vec!["composite", "crystal", "liquid", "wire", "switch", "transistor", "microchip", "circuit", "device", "fixture", "frame", "hydraulics", "machine", "organism", "organoid", "tissue", "muscle", "essence", "spirit", "phlegm", "mist", "biomass", "metal", "silicon", "alloy", "tube", "cell", "fiber", "wire", "condensate", "concentrate", "extract", "emanation"].iter().map(|s| s.to_string()).collect()),
+        ];
+
+        for (category_name, resource_types) in &categories {
+            let mut has_resources = false;
+            for res_type in resource_types {
+                if let Some(amount) = shard_res.get(res_type) {
+                    if *amount > 0 {
+                        has_resources = true;
+                        break;
+                    }
+                }
+            }
+
+            if has_resources {
+                println!("│  {}", category_name);
+                println!("├─────────────────────────────────────────────────────────────┤");
+
+                let mut res_list: Vec<_> = resource_types.iter()
+                    .filter_map(|res_type| {
+                        shard_res.get(res_type).map(|amount| (res_type.as_str(), *amount))
+                    })
+                    .filter(|(_, amount)| *amount > 0)
+                    .collect();
+
+                res_list.sort_by(|a, b| b.1.cmp(&a.1));
+
+                for (res_type, amount) in res_list {
+                    let formatted_num = format_number(amount);
+                    println!("│  {:<12} {:>15}", res_type, formatted_num);
+                }
+                println!("├─────────────────────────────────────────────────────────────┤");
+            }
+        }
+
+        let total_energy = shard_res.get("energy").unwrap_or(&0);
+        let total_power = shard_res.get("power").unwrap_or(&0);
+        println!("│  汇总:");
+        println!("│  Energy: {:>15}  Power: {:>15}", format_number(*total_energy), format_number(*total_power));
+        println!("└─────────────────────────────────────────────────────────────┐");
+        println!();
+    }
+
+    println!("═══════════════════════════════════════════════════════════════\n");
 }
