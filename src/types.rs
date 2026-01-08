@@ -55,6 +55,8 @@ pub struct MyInfo {
     pub cpu: i32,
     pub badge: Option<Badge>,
     pub password: Option<bool>,
+    #[serde(rename = "lastRespawnDate")]
+    pub last_respawn_date: Option<u64>,
     #[serde(rename = "notifyPrefs")]
     pub notify_prefs: Option<NotifyPrefs>,
     pub gcl: u64,
@@ -67,11 +69,16 @@ pub struct MyInfo {
     pub cpu_shard: HashMap<String, f64>,
     #[serde(rename = "cpuShardUpdatedTime")]
     pub cpu_shard_updated_time: Option<u64>,
+    pub runtime: Option<HashMap<String, serde_json::Value>>,
     #[serde(rename = "powerExperimentations")]
     pub power_experimentations: Option<u64>,
     #[serde(rename = "powerExperimentationTime")]
     pub power_experimentation_time: Option<u64>,
     pub resources: GlobalResources,
+    #[serde(rename = "playerColor")]
+    pub player_color: Option<serde_json::Value>,
+    #[serde(rename = "promoPixels")]
+    pub promo_pixels: Option<serde_json::Value>,
     pub steam: Option<SteamAccount>,
 }
 
@@ -93,17 +100,23 @@ pub struct NotifyPrefs {
     #[serde(rename = "sendOnline")]
     pub send_online: bool,
     #[serde(rename = "disabledOnMessages")]
-    pub disabled_on_messages: bool,
+    pub disabled_on_messages: Option<bool>,
+    #[serde(rename = "disabled")]
+    pub disabled: Option<bool>,
+    #[serde(rename = "errorsInterval")]
+    pub errors_interval: Option<u64>,
+    #[serde(rename = "interval")]
+    pub interval: Option<u64>,
 }
 
 /// 全局资源数
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GlobalResources {
     #[serde(rename = "accessKey")]
-    pub access_key: i32,
+    pub access_key: Option<i32>,
     pub pixel: i32,
     #[serde(rename = "cpuUnlock")]
-    pub cpu_unlock: i32,
+    pub cpu_unlock: Option<i32>,
 }
 
 /// steam 账号信息
