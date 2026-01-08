@@ -151,10 +151,10 @@ fn print_resources(resources: &HashMap<String, HashMap<String, i32>>) {
         println!("📍 Shard: {}", shard);
         println!("┌─────────────────────────────────────────────────────────────┐");
 
-        let mut categories: Vec<(&str, Vec<String>)> = vec![
+        let categories: Vec<(&str, Vec<String>)> = vec![
             ("基础资源", vec!["energy", "power", "ops"].iter().map(|s| s.to_string()).collect()),
             ("基础矿物", vec!["H", "O", "L", "K", "Z", "U", "X", "G"].iter().map(|s| s.to_string()).collect()),
-            ("基础化合物", vec!["OH", "ZK", "UL", "GHO2", "UH2O", "KH2O", "UHO2", "LHO2", "KHO2", "XUH2O", "XHO2", "XKH2O", "XZHO2", "XGHO2", "XLH2O", "XLHO2", "XGH2O", "XZH2O", "KH", "ZH", "UH", "LH", "GH"].iter().map(|s| s.to_string()).collect()),
+            ("基础化合物", vec!["OH", "ZK", "UL", "GHO2", "UH2O", "KH2O", "UHO2", "LHO2", "KHO2", "XUH2O", "XHO2", "XKH2O", "XZHO2", "XGHO2", "XLH2O", "XLHO2", "XGH2O", "XZH2O", "KH", "ZH", "UH", "LH", "GH", "ZO", "KO", "UO", "LO", "GO"].iter().map(|s| s.to_string()).collect()),
             ("压缩资源", vec!["utrium_bar", "lemergium_bar", "keanium_bar", "zynthium_bar", "ghodium_melt", "oxidant", "reductant", "purifier", "battery"].iter().map(|s| s.to_string()).collect()),
             ("高级资源", vec!["composite", "crystal", "liquid", "wire", "switch", "transistor", "microchip", "circuit", "device", "fixture", "frame", "hydraulics", "machine", "organism", "organoid", "tissue", "muscle", "essence", "spirit", "phlegm", "mist", "biomass", "metal", "silicon", "alloy", "tube", "cell", "fiber", "wire", "condensate", "concentrate", "extract", "emanation"].iter().map(|s| s.to_string()).collect()),
         ];
